@@ -15,3 +15,5 @@ pynvml
 pandas
 accelerate
 numpy==1.26.4
+gradio 
+opencv-python
