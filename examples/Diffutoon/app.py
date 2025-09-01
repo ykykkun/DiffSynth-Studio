@@ -3,6 +3,11 @@ import os
 import cv2
 from diffsynth import SDVideoPipelineRunner, download_models
 import tempfile
+import math
+
+def adjust_dimension(dim):
+    """调整尺寸为64的倍数"""
+    return int(math.ceil(dim / 64)) * 64
 
 def get_video_info(video_path):
     """获取视频的基本信息"""
@@ -17,7 +22,11 @@ def get_video_info(video_path):
     
     cap.release()
     
-    return width, height, fps, total_frames
+    # 调整尺寸为64的倍数
+    adjusted_width = adjust_dimension(width)
+    adjusted_height = adjust_dimension(height)
+    
+    return width, height, adjusted_width, adjusted_height, fps, total_frames
 
 def process_video(
     input_video,
@@ -39,8 +48,15 @@ def process_video(
     
     # 获取视频的真实参数
     try:
-        width, height, fps, total_frames = get_video_info(input_video)
-        print(f"视频信息: {width}x{height}, FPS: {fps}, 总帧数: {total_frames}")
+        orig_width, orig_height, width, height, fps, total_frames = get_video_info(input_video)
+        print(f"原始视频尺寸: {orig_width}x{orig_height}")
+        print(f"调整后尺寸: {width}x{height}")
+        print(f"FPS: {fps}, 总帧数: {total_frames}")
+        
+        # 如果尺寸有调整，显示提示信息
+        if orig_width != width or orig_height != height:
+            gr.Info(f"视频尺寸已从 {orig_width}x{orig_height} 调整为 {width}x{height} 以满足模型要求")
+            
     except Exception as e:
         raise gr.Error(f"无法读取视频信息: {str(e)}")
     
@@ -157,16 +173,21 @@ def on_video_upload(video_path):
         return "请上传视频"
     
     try:
-        width, height, fps, total_frames = get_video_info(video_path)
+        orig_width, orig_height, width, height, fps, total_frames = get_video_info(video_path)
         duration = total_frames / fps if fps > 0 else 0
         
         info = f"""
         📹 视频信息:
-        - 分辨率: {width} × {height}
+        - 原始分辨率: {orig_width} × {orig_height}
+        - 处理分辨率: {width} × {height}
         - 帧率: {fps:.2f} FPS
         - 总帧数: {total_frames}
         - 时长: {duration:.2f} 秒
         """
+        
+        if orig_width != width or orig_height != height:
+            info += f"\n\n⚠️ 注意: 视频尺寸已自动调整为64的倍数"
+            
         return info
     except Exception as e:
         return f"无法读取视频信息: {str(e)}"
@@ -184,7 +205,7 @@ with gr.Blocks(title="视频风格转换") as demo:
             video_info = gr.Textbox(
                 label="视频信息",
                 interactive=False,
-                lines=4,
+                lines=6,
                 value="请上传视频以查看信息"
             )
             
@@ -271,6 +292,10 @@ with gr.Blocks(title="视频风格转换") as demo:
            - 去噪强度: 控制风格化程度 (0.7-1.0推荐)
            - ControlNet 强度: 控制原视频结构的保持程度
         4. **开始处理**: 点击按钮开始转换
+        
+        ## 注意
+        - 视频尺寸会自动调整为64的倍数以满足模型要求
+        - 处理后的视频可能会与原始尺寸略有不同
         
         ## 硬件要求
         - GPU: 至少8GB显存
