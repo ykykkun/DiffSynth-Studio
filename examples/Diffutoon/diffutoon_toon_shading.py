@@ -47,7 +47,7 @@ config = {
             "video_file": "data/input_video.mp4",
             "image_folder": None,
             "height":1920,
-            "width":1080,
+            "width":1088,
             "start_frame_id": 0,
             "end_frame_id": 90
         },
@@ -56,7 +56,7 @@ config = {
                 "video_file": "data/input_video.mp4",
                 "image_folder": None,
                 "height":1920,
-                "width":1080,
+                "width":1088,
                 "start_frame_id": 0,
                 "end_frame_id": 90
             },
@@ -64,7 +64,7 @@ config = {
                 "video_file": "data/input_video.mp4",
                 "image_folder": None,
                 "height":1920,
-                "width":1080,
+                "width":1088,
                 "start_frame_id": 0,
                 "end_frame_id": 90
             }
@@ -89,7 +89,7 @@ config = {
             # The following parameters will be overwritten. You don't need to modify them.
             "input_frames": [],
             "num_frames": 90,
-            "width":1080,
+            "width":1088,
             "height":1920,
             "controlnet_frames": []
         }
