@@ -46,9 +46,9 @@ pipe.prompter.load_textual_inversions(["models/textual_inversion/verybadimageneg
 # Load video (we only use 60 frames for quick testing)
 # The original video is here: https://www.bilibili.com/video/BV19w411A7YJ/
 video = VideoData(
-    video_file="data/examples/bilibili/BV19w411A7YJ.mp4",
-    height=1024, width=1024)
-input_video = [video[i] for i in range(40*60, 41*60)]
+    video_file="data/input_video.mp4",
+    height=1920, width=1080)
+input_video = [video[i] for i in range(40*120, 41*120)]
 
 # Toon shading (20G VRAM)
 torch.manual_seed(0)
@@ -57,9 +57,9 @@ output_video = pipe(
     negative_prompt="verybadimagenegative_v1.3",
     cfg_scale=3, clip_skip=2,
     controlnet_frames=input_video, num_frames=len(input_video),
-    num_inference_steps=10, height=1024, width=1024,
+    num_inference_steps=10, height=1920, width=1080,
     animatediff_batch_size=32, animatediff_stride=16,
 )
 
 # Save video
-save_video(output_video, "output_video.mp4", fps=60)
+save_video(output_video, "output_video.mp4", fps=30)
