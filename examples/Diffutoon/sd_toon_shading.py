@@ -48,7 +48,7 @@ pipe.prompter.load_textual_inversions(["models/textual_inversion/verybadimageneg
 video = VideoData(
     video_file="data/input_video.mp4",
     height=1920, width=1080)
-input_video = [video[i] for i in range(40*120, 41*120)]
+input_video = video
 
 # Toon shading (20G VRAM)
 torch.manual_seed(0)
