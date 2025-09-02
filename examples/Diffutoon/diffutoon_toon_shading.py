@@ -44,29 +44,29 @@ config = {
     },
     "data": {
         "input_frames": {
-            "video_file": "data/examples/diffutoon/input_video.mp4",
+            "video_file": "data/input_video.mp4",
             "image_folder": None,
-            "height": 1536,
-            "width": 1536,
+            "height":1920,
+            "width":1080,
             "start_frame_id": 0,
-            "end_frame_id": 30
+            "end_frame_id": 90
         },
         "controlnet_frames": [
             {
-                "video_file": "data/examples/diffutoon/input_video.mp4",
+                "video_file": "data/input_video.mp4",
                 "image_folder": None,
-                "height": 1536,
-                "width": 1536,
+                "height":1920,
+                "width":1080,
                 "start_frame_id": 0,
-                "end_frame_id": 30
+                "end_frame_id": 90
             },
             {
-                "video_file": "data/examples/diffutoon/input_video.mp4",
+                "video_file": "data/input_video.mp4",
                 "image_folder": None,
-                "height": 1536,
-                "width": 1536,
+                "height":1920,
+                "width":1080,
                 "start_frame_id": 0,
-                "end_frame_id": 30
+                "end_frame_id": 90
             }
         ],
         "output_folder": "output",
@@ -88,9 +88,9 @@ config = {
             "cross_frame_attention": False,
             # The following parameters will be overwritten. You don't need to modify them.
             "input_frames": [],
-            "num_frames": 30,
-            "width": 1536,
-            "height": 1536,
+            "num_frames": 90,
+            "width":1080,
+            "height":1920,
             "controlnet_frames": []
         }
     }
